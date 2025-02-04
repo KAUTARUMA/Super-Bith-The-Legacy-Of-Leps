@@ -25,9 +25,9 @@ local defaults = {frames = 1,
 local megan = npcManager.setNpcSettings(table.join(
 				 {id = npcID,
 				  gfxheight = 64, 
-				  gfxwidth = 32, 
+				  gfxwidth = 64, 
 				  ignorethrownnpcs = 0,
-				  width = 32, 
+				  width = 64, 
 				  height = 64, },
 				  defaults))
 
