@@ -1,0 +1,3 @@
+lightradius = 50
+lightbrightness = 1
+lightcolor = 0x31c5eaFF
