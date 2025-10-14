@@ -1405,6 +1405,8 @@ function boxInstanceFunctions:close()
     if not self.silent and self.settings.closeSoundEnabled and answer == nil then
         SFX.play(self.settings.closeSound)
     end
+
+    Routine.signal("dialogueFinished")
 end
 
 
