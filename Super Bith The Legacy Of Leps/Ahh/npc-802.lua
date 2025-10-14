@@ -24,11 +24,11 @@ local defaults = {frames = 1,
 
 local megan = npcManager.setNpcSettings(table.join(
 				 {id = npcID,
-				  gfxheight = 80, 
-				  gfxwidth = 47, 
+				  gfxheight = 320, 
+				  gfxwidth = 160, 
 				  ignorethrownnpcs = 0,
-				  width = 47, 
-				  height = 80, },
+				  width = 160, 
+				  height = 320, },
 				  defaults))
 
 npcManager.registerHarmTypes(npcID,
