@@ -73,6 +73,10 @@ function crystal.onNPCCollect(event, npc, player)
 	-- do collect effects here
 
 	player.data.incredibleSuit.canDash = true
+
+	player.speedX = player.speedX * 0.3
+	player.speedY = -10
+
 	npc.data.collectTimer = 180
 end
 
