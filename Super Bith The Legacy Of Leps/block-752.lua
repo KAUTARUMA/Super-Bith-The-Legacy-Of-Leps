@@ -8,7 +8,9 @@ local block = {}
 blockmanager.setBlockSettings({
 	id = blockID,
 	customhurt = true,
-	passthrough = true
+	passthrough = true,
+	frames = 2,
+	framespeed = 80000
 })
 
 function block.onCollideBlock(v,n)
