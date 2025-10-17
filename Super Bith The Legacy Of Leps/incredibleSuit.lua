@@ -77,7 +77,7 @@ function incredibleSuit.onTickPowerup(p)
 	-- Text.print(tostring(data.dashTimer), 100, 150)
 	-- Text.print(tostring(p:isOnGround()), 100, 200)
 	-- Text.print(tostring(p.speedX), 100, 250)
-	p.data.incredibleSuit.breakCollider:debug(true)
+	-- p.data.incredibleSuit.breakCollider:debug(true)
 
 	lastDashInput = dashInput
 end
