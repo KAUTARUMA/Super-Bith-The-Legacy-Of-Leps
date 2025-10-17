@@ -9,6 +9,8 @@ local cutscenes = {}
 local hasRecievedEvent = {}
 local key = {}
 
+local startingCheckpoint = -1
+
 function cutscenes.onInitAPI()
     registerEvent(cutscenes,"onStart")
     registerEvent(cutscenes,"onTick")
@@ -25,9 +27,27 @@ function cutscenes.onStart()
     oldBoundary.top = section0.boundary.top
     oldBoundary.bottom = section0.boundary.bottom
 
-    local sectionBounds = section0.boundary
-    sectionBounds.right = sectionBounds.left + 1000
-    section0.boundary = sectionBounds
+    startingCheckpoint = Checkpoint.getActiveIndex()
+
+    if startingCheckpoint == -1 then
+        local sectionBounds = section0.boundary
+        sectionBounds.right = sectionBounds.left + 1000
+        section0.boundary = sectionBounds
+    elseif player.section == 0 then
+        local charlie = NPC.get()[1]
+        local pim = NPC.get()[2]
+
+        charlie.msg = ""
+        pim.msg = ""
+
+        charlie.spawnX = -199416
+        charlie.spawnY = -200112
+        charlie.spawnDirection = 1
+
+        pim.spawnX = -199457
+        pim.spawnY = -200112
+        pim.spawnDirection = 1
+    end
 
     key = NPC.get()[4]
 end
@@ -44,7 +64,7 @@ function cutscenes.onEvent(eventName)
     if hasRecievedEvent[eventName] then return end
     hasRecievedEvent[eventName] = true
     
-    if eventName == "Locked Cutscene" then Routine.run(cutscenes.lockedCutscene) end
+    if eventName == "Locked Cutscene" and startingCheckpoint == -1 then Routine.run(cutscenes.lockedCutscene) end
 
     if eventName == "Key Cutscene" then
         if key.x > -199168 then
@@ -158,6 +178,8 @@ function cutscenes.lockedCutscene()
         npc.spawnX = npc.x
         npc.spawnY = npc.y
         npc.spawnDirection = npc.direction
+
+        print(npc.spawnX, npc.spawnY, npc.spawnDirection)
     end
 end
 

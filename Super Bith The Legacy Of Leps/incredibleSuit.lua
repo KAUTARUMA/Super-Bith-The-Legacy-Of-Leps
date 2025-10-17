@@ -2,6 +2,9 @@ local cp = require("customPowerups")
 
 local incredibleSuit = {}
 
+local hueShiftShader = Shader()
+hueShiftShader:compileFromFile(nil, Misc.resolveFile("hueshift.frag"))
+
 incredibleSuit.forcedStateType = 2 -- 0 for instant, 1 for normal/flickering, 2 for poof/raccoon
 incredibleSuit.basePowerup = PLAYER_BIG
 incredibleSuit.cheats = {"glaby"}
@@ -9,6 +12,16 @@ incredibleSuit.collectSounds = {
     upgrade = 34,
     reserve = 12,
 }
+
+function incredibleSuit.onInitPowerupLib()
+	incredibleSuit.spritesheets = {
+		incredibleSuit:registerAsset(1, "mario-incredible.png"),
+	}
+
+	incredibleSuit.iniFiles = {
+		incredibleSuit:registerAsset(1, "mario-incredible.ini"),
+	}
+end
 
 -- runs when the powerup is active, passes the player
 local wasDashing = false
@@ -30,6 +43,7 @@ function incredibleSuit.onTickPowerup(p)
 
 		data.dashTimer = 5
 		data.dashHitboxTimer = 15
+		p.speedY = -5
 	end
 
 	if data.dashTimer > 0 then
@@ -41,7 +55,7 @@ function incredibleSuit.onTickPowerup(p)
 		p.keys.right = false
 
 		p.speedX = 20 * p.direction
-		p.speedY = 0
+		p.speedY = p.speedY * 0.9
 
 		data.dashTimer = data.dashTimer - 1
 	elseif wasDashing then
@@ -72,7 +86,7 @@ function incredibleSuit.onTickPowerup(p)
 	
 	local cam = Camera.get()[1]
 
-	Text.print(tostring(data.canDash), player.x - cam.x, player.y - cam.y)
+	-- Text.print(tostring(data.canDash), player.x - cam.x, player.y - cam.y)
 	-- Text.print(tostring(data.canDash), 100, 100)
 	-- Text.print(tostring(data.dashTimer), 100, 150)
 	-- Text.print(tostring(p:isOnGround()), 100, 200)
@@ -87,14 +101,32 @@ function incredibleSuit.onEnable(p, noEffects)
 		canDash = true,
 		dashTimer = 0,
 		dashHitboxTimer = 0,
+		dashCooldown = 0,
 		breakCollider = Colliders.Rect(0,0,50,40,0)
 	}
 
 	normalMaxSpeed = Defines.player_runspeed
 end
 
+function incredibleSuit.onDraw(_n)
+	for i, p in ipairs(Player.get()) do
+		if cp.getCurrentPowerup(p) ~= incredibleSuit then return end
+
+		local data = p.data.incredibleSuit
+		
+		p:render{
+			x = p.x,
+			shader = hueShiftShader,
+			uniforms = {
+				shift_amount = data.canDash and 0.0 or 0.3
+			}
+		}
+	end
+end
+
 function incredibleSuit.onInitAPI()
     registerEvent(incredibleSuit, "onNPCCollect")
+	registerEvent(incredibleSuit, "onDraw")
 end
 
 return incredibleSuit
