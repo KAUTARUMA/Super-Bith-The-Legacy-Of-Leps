@@ -75,6 +75,7 @@ function crystal.onNPCCollect(event, npc, player)
 	if player.data.incredibleSuit.canDash then return end
 
 	-- do collect effects here
+	SFX.play("crystal.ogg")
 
 	player.data.incredibleSuit.canDash = true
 	player.data.incredibleSuit.dashTimer = 0

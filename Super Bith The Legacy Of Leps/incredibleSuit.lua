@@ -9,7 +9,7 @@ incredibleSuit.forcedStateType = 2 -- 0 for instant, 1 for normal/flickering, 2 
 incredibleSuit.basePowerup = PLAYER_BIG
 incredibleSuit.cheats = {"glaby"}
 incredibleSuit.collectSounds = {
-    upgrade = 34,
+    upgrade = "walls.ogg",
     reserve = 12,
 }
 
@@ -58,6 +58,7 @@ function incredibleSuit.onTickPowerup(p)
 		p.speedY = p.speedY * 0.9
 
 		data.dashTimer = data.dashTimer - 1
+		SFX.play("dash.ogg")
 	elseif wasDashing then
 		wasDashing = false
 		Defines.player_runspeed = normalMaxSpeed
