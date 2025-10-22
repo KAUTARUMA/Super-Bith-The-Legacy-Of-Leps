@@ -37,7 +37,7 @@ function incredibleSuit.onTickPowerup(p)
 	if p:isOnGround() then
 		data.canDash = true
 	end
-
+	
 	local dashInput = (p.keys.altRun == KEYS_PRESSED or p.keys.run == KEYS_PRESSED or p:mem(0x50, FIELD_BOOL)) 
 	
 	if dashInput and lastDashInput ~= dashInput and data.canDash and data.dashTimer <= 0 then
