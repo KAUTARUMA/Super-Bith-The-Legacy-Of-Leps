@@ -21,6 +21,8 @@ function incredibleSuit.onInitPowerupLib()
 	incredibleSuit.iniFiles = {
 		incredibleSuit:registerAsset(1, "mario-incredible.ini"),
 	}
+
+
 end
 
 -- runs when the powerup is active, passes the player
@@ -35,8 +37,8 @@ function incredibleSuit.onTickPowerup(p)
 	if p:isOnGround() then
 		data.canDash = true
 	end
-
-	local dashInput = (p.keys.altRun == KEYS_PRESSED or p.keys.run == KEYS_PRESSED or p:mem(0x50, FIELD_BOOL)) 
+	
+	local dashInput = (p.keys.altRun == KEYS_PRESSED)
 	
 	if dashInput and lastDashInput ~= dashInput and data.canDash and data.dashTimer <= 0 then
 		data.canDash = false
@@ -85,7 +87,7 @@ function incredibleSuit.onTickPowerup(p)
 		data.dashHitboxTimer = data.dashHitboxTimer - 1
 	end
 	
-	local cam = Camera.get()[1]
+	-- local cam = Camera.get()[1]
 
 	-- Text.print(tostring(data.canDash), player.x - cam.x, player.y - cam.y)
 	-- Text.print(tostring(data.canDash), 100, 100)
@@ -98,6 +100,7 @@ function incredibleSuit.onTickPowerup(p)
 end
 
 function incredibleSuit.onEnable(p, noEffects)
+
 	p.data.incredibleSuit = {
 		canDash = true,
 		dashTimer = 0,

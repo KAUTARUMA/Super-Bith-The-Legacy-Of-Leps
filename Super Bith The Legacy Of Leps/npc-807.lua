@@ -69,8 +69,8 @@ function crystal.onNPCCollect(event, npc, player)
 	event.cancelled = true
 
 	if npc.data.collectTimer > 0 then return end
-
-	if cp.getCurrentPowerup(player).name ~= "Incredible Suit" then return end
+	
+	if cp.getCurrentPowerup(player) == nil or cp.getCurrentPowerup(player).name ~= "Incredible Suit" then return end
 	if player.data.incredibleSuit == nil then return end
 	if player.data.incredibleSuit.canDash then return end
 
