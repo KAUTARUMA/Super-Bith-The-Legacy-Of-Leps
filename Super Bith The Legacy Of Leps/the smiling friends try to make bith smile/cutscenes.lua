@@ -49,7 +49,7 @@ function cutscenes.onStart()
         pim.spawnDirection = 1
     end
 
-    key = NPC.get()[4]
+    key = NPC.get()[82]
 end
 
 function cutscenes.onTick()

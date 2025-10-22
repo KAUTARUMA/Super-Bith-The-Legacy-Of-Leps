@@ -169,7 +169,7 @@ local function loadAssets(lib, p)
 end
 
 local function resetAssets(id, character, p)
-    Misc.loadCharacterHitBoxes(character, id, pm.getHitboxPath(character, id))
+    -- Misc.loadCharacterHitBoxes(character, id, pm.getHitboxPath(character, id))
     Graphics.sprites[pm.getName(character)][id].img = pm.getCostumeImage(character, id)
 
     if GP then
