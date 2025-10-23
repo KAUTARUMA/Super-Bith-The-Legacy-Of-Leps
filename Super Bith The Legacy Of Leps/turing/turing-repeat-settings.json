@@ -1,0 +1,23 @@
+{
+	"style" : "groupbox",
+	"title" : "Turing Settings",
+	"layout": [
+		{
+			"control": "spinBox",
+			"name": "startingState",
+			"title": "Starting State",
+			"type": "int",
+			"value-default": 0,
+			"value-min": 0
+		},
+		{
+			"control": "spinBox",
+			"name": "maxRepeat",
+			"title": "Maximum Repeat",
+			"type": "int",
+			"value-default": 3,
+			"value-min": 0
+		}
+	]
+}
+
