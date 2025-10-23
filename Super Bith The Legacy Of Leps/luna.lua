@@ -6,6 +6,7 @@ ct.frames = 7
 
 function onStart()
     Misc.setWindowTitle("Bith Boy")
+    player.character = CHARACTER_MARIO
 end
 
 function onKeyboardPress(vkey)
