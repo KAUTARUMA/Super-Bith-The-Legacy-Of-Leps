@@ -1,0 +1,15 @@
+{
+	"style" : "groupbox",
+	"title" : "FOREVER settings",
+	"layout": [
+		{
+			"control": "checkBox",
+			"name": "waitForLeave",
+			"title": "Wait For Player To Leave",
+			"type": "npc",
+			"tooltip": "Only retrigger after a player has left",
+			"value-default": 0
+		}
+	]
+}
+

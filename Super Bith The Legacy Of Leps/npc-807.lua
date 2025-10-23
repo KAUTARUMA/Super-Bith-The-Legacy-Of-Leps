@@ -1,4 +1,5 @@
 local npcManager = require("npcManager")
+local cp = require("customPowerups")
 
 local crystal = {}
 
@@ -6,8 +7,9 @@ local npcID = NPC_ID
 
 local settings = npcManager.setNpcSettings({
 	id = npcID,
-	width = 32, 
-	height = 32, 
+	width = 40, 
+	height = 40,
+	gfxoffsety = -5, 
 	frames = 0,
 	framestyle = 0,
 	framespeed = 8,
@@ -67,12 +69,16 @@ function crystal.onNPCCollect(event, npc, player)
 	event.cancelled = true
 
 	if npc.data.collectTimer > 0 then return end
+	
+	if cp.getCurrentPowerup(player) == nil or cp.getCurrentPowerup(player).name ~= "Incredible Suit" then return end
 	if player.data.incredibleSuit == nil then return end
 	if player.data.incredibleSuit.canDash then return end
 
 	-- do collect effects here
+	SFX.play("crystal.ogg")
 
 	player.data.incredibleSuit.canDash = true
+	player.data.incredibleSuit.dashTimer = 0
 
 	player.speedX = player.speedX * 0.3
 	player.speedY = -10

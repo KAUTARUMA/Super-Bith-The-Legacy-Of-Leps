@@ -2,12 +2,8 @@ local npcManager = require("npcManager")
 local incredible = {}
 local npcID = NPC_ID
 
--- calls in Capt.Monochrome's Penguin Suit NPC AI to let the npc act like it
-local ai
-pcall(function() ai = require("penguin_ai") end)
-
 local cp = require("customPowerups")
-local incredibleSuit = cp.addPowerup("incredible Suit", "incredibleSuit", npcID)
+local incredibleSuit = cp.addPowerup("Incredible Suit", "incredibleSuit", npcID)
 cp.transformWhenSmall(npcID, 9)
 
 local incredibleSettings = {
