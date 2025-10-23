@@ -1,7 +1,7 @@
 local turingmanager = {}
 
 turingmanager.running = false
-turingmanager.defaultBitString = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+turingmanager.defaultBitString = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
 turingmanager.currentBitString = {}
 turingmanager.currentPos = currentPos
 
