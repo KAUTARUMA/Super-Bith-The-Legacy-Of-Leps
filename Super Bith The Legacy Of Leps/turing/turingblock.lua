@@ -76,7 +76,7 @@ function turingblock.readInputs(v)
             elseif instructionCount > 15 then waitTime = 0.25 end
         end
 
-        waitTime = 0.1
+        waitTime = 0.25
 
         if sfx then SFX.play(sfx, 1 * (waitTime + 0.05)) end
 
@@ -140,6 +140,7 @@ function turingblock.readInputs(v)
                 end
             end
         end
+        Routine.wait(3)
         turingmanager.resetBits()
     end
 
