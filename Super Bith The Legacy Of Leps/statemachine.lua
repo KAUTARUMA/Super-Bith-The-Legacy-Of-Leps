@@ -13,6 +13,7 @@ function StateMachine.new()
 end
 
 function StateMachine:addState(name, callbacks)
+    callbacks.name = name
     self.states[name] = callbacks
 end
 
