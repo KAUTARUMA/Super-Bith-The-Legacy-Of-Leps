@@ -1,0 +1,9 @@
+fill-color = black
+
+[BG]
+img="background2-7.png"
+parallaxX=0.5
+parallaxY=0.1
+repeatX=true
+repeatY=true
+depth=100
