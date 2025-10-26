@@ -2,7 +2,7 @@ local ct = require("coyotetime")
 local cp = require("customPowerups")
 local ld = require("littleDialogue")
 
-ct.frames = 7
+ct.frames = 12
 
 function onStart()
     Misc.setWindowTitle("Bith Boy")

@@ -28,6 +28,7 @@ end
 
 function StateMachine:transition(newStateName)
     local lastState = self.currentState
+    
     if lastState and lastState.exit then
         lastState.exit(lastState, newStateName)
     end
