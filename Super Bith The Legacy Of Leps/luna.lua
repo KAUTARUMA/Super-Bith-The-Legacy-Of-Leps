@@ -16,13 +16,15 @@ function onKeyboardPress(vkey)
 end
 
 function onPlayerHarm(eventObj, player, harmType, culprit)
-    local oldPowerup = player.powerup
-    
-    Routine.run(function()
-        Routine.wait(0.9)
+    if player.character == CHARACTER_MARIO then
+        local oldPowerup = player.powerup
         
-        if oldPowerup ~= PLAYER_BIG and oldPowerup ~= PLAYER_SMALL then
-            player.powerup = PLAYER_BIG
-        end
-    end)
+        Routine.run(function()
+            Routine.wait(0.9)
+            
+            if oldPowerup ~= PLAYER_BIG and oldPowerup ~= PLAYER_SMALL then
+                player.powerup = PLAYER_BIG
+            end
+        end)
+    end
 end
