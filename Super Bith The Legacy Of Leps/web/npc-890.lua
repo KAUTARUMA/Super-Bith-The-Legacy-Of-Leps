@@ -91,14 +91,14 @@ function initializeNPCData(nukoNPC)
 
     advBoss:registerCollider(advBoss.collider, 1)
     
-    data.dmgColliders["runCollider"] = Colliders.Box(0, 0, 5, 1)
+    data.dmgColliders["runCollider"] = Colliders.Box(0, 0, 2, 1)
     local runCollider = data.dmgColliders["runCollider"]
     runCollider.offsetX = 0
     runCollider.offsetY = 6
     runCollider.enabled = false
     
-    --advBoss.collider:Debug(true)
-    --runCollider:Debug(true)
+    -- advBoss.collider:Debug(true)
+    runCollider:Debug(true)
 
     stateMachine:addState("INTRO", {
         enter = function(state)
@@ -179,11 +179,12 @@ function initializeNPCData(nukoNPC)
         end,
 
         update = function(state, dt)
+            nukoSprite.speed = 1
             if stateMachine.stateTimer > tiredLength then
                 stateMachine:transition("POUNCE")
-                data.pounceTarget = vector(-199616, -200416)
-            elseif stateMachine.stateTimer > tiredLength - 0.5 then
-                nukoSprite:play("shake")
+                data.pounceTarget = vector(-199616, -200448 + (66))
+            --elseif stateMachine.stateTimer > tiredLength - 0.5 then
+            --    nukoSprite:play("shake")
             elseif stateMachine.stateTimer > tiredLength - 1 then
                 nukoSprite:play("shock")
             end
@@ -201,27 +202,35 @@ function initializeNPCData(nukoNPC)
             data.canHurtState = false
             data.useGravity = false
             
-            state.isPouncing = false
+            state.pounceState = 0
             state.pounceStart = 0
             state.startPos = {}
+
+            state.startPounceTime = 0.2
+            state.pounceLength = 0.5
         end,
 
         update = function(state, dt)
+            nukoSprite.speed = 1 -- bruh
+
             if data.pounceTarget.x > nukoNPC.x then
                 nukoNPC.direction = 1
             end
 
-            if stateMachine.stateTimer > 0.2 and state.isPouncing == false then
+            if stateMachine.stateTimer > state.startPounceTime and state.pounceState == 0 then
                 nukoSprite:play("pounce-start")
 
-                state.isPouncing = true
+                state.pounceState = 1
                 state.pounceStart = stateMachine.stateTimer
 
                 state.startPos = vector(nukoNPC.x, nukoNPC.y)
-            elseif state.isPouncing == true then
+
+                Layer.get("Pounce Platform"):show(false)
+                SFX.play(33)
+            elseif state.pounceState == 1 then
                 local t = stateMachine.stateTimer - state.pounceStart
                 local jumpPeak = 80
-                local length = 0.5
+                local length = state.pounceLength
                 local halfLength = length / 1.5
 
                 if t < length then
@@ -246,8 +255,19 @@ function initializeNPCData(nukoNPC)
                             halfLength
                         )
                     end
-                else
-                    -- stateMachine:transition("WANDER")
+                elseif pounceState == 2 then
+                    if nukoSprite.currentTag.name ~= "pounce-land" then
+                        nukoSprite:play("pounce-land")
+                    end
+
+                    if nukoSprite.playing == false then
+                        stateMachine:transition("THROWING")
+                    end
+                end
+                
+                -- lazy
+                if stateMachine.stateTimer > state.startPounceTime + state.pounceLength then
+                    pounceState = 2
                 end
             end
         end,
@@ -261,12 +281,43 @@ function initializeNPCData(nukoNPC)
     stateMachine:addState("HURT", {
         enter = function(state)
             nukoSprite:play("hurt")
+            data.canHurt = false
         end,
 
         update = function(state, dt)
             if stateMachine.stateTimer > 0.5 then
                 stateMachine:transition("WANDER")
             end
+        end,
+
+        exit = function(state, nextState)
+            data.canHurt = true
+        end
+    })
+
+    stateMachine:addState("THROWING", {
+        enter = function(state)
+            nukoSprite:play("idle")
+            data.canHurt = false
+
+            Layer.get("Platform"):hide(false)
+            Layer.get("Bumper Platform"):show(false)
+            SFX.play(32)
+        end,
+
+        update = function(state, dt)
+            if stateMachine.stateTimer > 10 then
+                stateMachine:transition("WANDER")
+            end
+        end,
+
+        exit = function(state, nextState)
+            data.canHurt = true
+
+            Layer.get("Platform"):show(false)
+            Layer.get("Bumper Platform"):hide(false)
+            Layer.get("Pounce Platform"):hide(false)
+            SFX.play(32)
         end
     })
 
@@ -353,12 +404,12 @@ function drawBoss(nukoNPC)
 end
 
 function nuko.onInitAPI()
-    npcManager.registerEvent(NPC_ID, nuko, "onTickNPC")
+    npcManager.registerEvent(NPC_ID, nuko, "onTickEndNPC")
     npcManager.registerEvent(NPC_ID, nuko, "onDrawNPC")
     registerEvent(nuko, "onNPCKill")
 end
 
-function nuko.onTickNPC(nukoNPC)
+function nuko.onTickEndNPC(nukoNPC)
     if not nukoNPC.data._bossdata then
         initializeNPCData(nukoNPC)
     end
