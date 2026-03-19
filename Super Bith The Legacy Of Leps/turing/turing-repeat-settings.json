@@ -17,6 +17,12 @@
 			"type": "int",
 			"value-default": 3,
 			"value-min": 0
+		},
+		{
+			"control": "checkBox",
+			"name": "isDisabled",
+			"title": "Is Disabled",
+			"value-default": false
 		}
 	]
 }

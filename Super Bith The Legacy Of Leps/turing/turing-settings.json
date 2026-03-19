@@ -10,6 +10,12 @@
 			"value-default": 0,
 			"value-min": 0,
 			"value-max": 2
+		},
+		{
+			"control": "checkBox",
+			"name": "isDisabled",
+			"title": "Is Disabled",
+			"value-default": false
 		}
 	]
 }

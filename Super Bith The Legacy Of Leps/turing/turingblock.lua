@@ -8,7 +8,10 @@ local turingBlockTexMap = {}
 
 local tubeTexture = Graphics.loadImage("repeat-tubes.png")
 
-local timeRestrictions = false
+local timeRestrictions = true
+
+local grayscaleShader = Shader()
+grayscaleShader:compileFromFile(nil, Misc.resolveFile("grayscale.frag"))
 
 turingblock.KINDS = {"BIT", "MOVE_UP", "MOVE_DOWN", "MOVE_SIDE", "REPEAT", "WAIT"}
 
@@ -22,7 +25,7 @@ local function getMaxState(v)
     elseif kind == "MOVE_SIDE" then
         return 2
     elseif kind == "MOVE_UP" or kind == "MOVE_DOWN" then
-        return 4
+        return 3
     else
         return 3
     end
@@ -83,7 +86,7 @@ function turingblock.readInputs(v)
 
     local function findNextBlock(x, y)
         for _, b in ipairs(Block.getIntersecting(x, y, x + 1, y + 1)) do
-            if turingBlockMap[b.id] then return b end
+            if turingBlockMap[b.id] and not b.isHidden then return b end
         end
     end
 
@@ -110,7 +113,7 @@ function turingblock.readInputs(v)
 
             local nextBlock = nil
             if isMove then
-                for i = 1, 3 do
+                for i = 1, 4 do
                     nextBlock = findNextBlock(currentBlock.x + move.x, currentBlock.y + move.y * i)
                     if nextBlock then break end
                 end
@@ -129,6 +132,7 @@ function turingblock.readInputs(v)
 
                 local backX = currentBlock.x - MOVE.SIDE.x * currentBlock.data.state
                 local backBlock = findNextBlock(backX, currentBlock.y)
+
                 if backBlock then
                     Routine.wait(wait)
                     wait = execute(backBlock)
@@ -137,8 +141,9 @@ function turingblock.readInputs(v)
                 end
             end
         end
+
         Routine.wait(1)
-        turingmanager.resetBits()
+        turingmanager.verifyBits()
     end
 
     Routine.run(process)
@@ -146,8 +151,6 @@ end
 
 function turingblock.onInitAPI()
     registerEvent(turingblock, "onPostBlockHit")
-
-    
 end
 
 function turingblock.onPostBlockHit(v, fromUpper, playerOrNil)
@@ -158,10 +161,40 @@ function turingblock.onPostBlockHit(v, fromUpper, playerOrNil)
     if kind == "WAIT" then return end
 
     local data = v.data
+
+    if data._settings.isDisabled then return end
+
     data.state = ((data.state or 0) + 1) % getMaxState(v)
     data.bumpTimer = 0
 
     SFX.play(32)
+end
+
+local function glDrawImage(texture, x, y, sx, sy, w, h, texW, texH, priority, shader)
+    local u1 = sx / texW
+    local v1 = sy / texH
+    local u2 = (sx + w) / texW
+    local v2 = (sy + h) / texH
+
+    Graphics.glDraw{
+        vertexCoords = {
+            x,     y,
+            x + w, y,
+            x + w, y + h,
+            x,     y + h
+        },
+        textureCoords = {
+            u1, v1,
+            u2, v1,
+            u2, v2,
+            u1, v2
+        },
+        texture = texture,
+        primitive = Graphics.GL_TRIANGLE_FAN,
+        priority = priority,
+        sceneCoords = true,
+        shader = shader
+    }
 end
 
 function turingblock.onDrawBlock(v)
@@ -184,6 +217,8 @@ function turingblock.onDrawBlock(v)
         Graphics.sprites.block[v.id].img = Graphics.loadImage("empty.png")
     end
 
+    if v.isHidden then return end
+
     local texture = turingBlockTexMap[v.id]
     local frameHeight = cfg.height
     local frameIndex = data.state or 0
@@ -203,7 +238,9 @@ function turingblock.onDrawBlock(v)
         end
     end
 
-    Graphics.drawImageToSceneWP(
+    local shader = (data._settings.isDisabled or turingmanager.running) and grayscaleShader or nil
+
+    glDrawImage(
         texture,
         v.x,
         v.y + yOffset,
@@ -211,13 +248,16 @@ function turingblock.onDrawBlock(v)
         frameHeight * frameIndex,
         cfg.width,
         frameHeight,
-        -25
+        texture.width,
+        texture.height,
+        -25,
+        shader
     )
 
     if kind == "REPEAT" then
         local length = data.state
 
-        Graphics.drawImageToSceneWP(
+        glDrawImage(
             tubeTexture,
             v.x,
             v.y + yOffset - 32,
@@ -225,11 +265,14 @@ function turingblock.onDrawBlock(v)
             32 * (length > 0 and 1 or 0),
             cfg.width,
             frameHeight,
-            -25
+            tubeTexture.width,
+            tubeTexture.height,
+            -25,
+            shader
         )
 
-        for i=1,length do
-            Graphics.drawImageToSceneWP(
+        for i = 1, length do
+            glDrawImage(
                 tubeTexture,
                 v.x - (32 * i),
                 v.y + yOffset - 32,
@@ -237,7 +280,10 @@ function turingblock.onDrawBlock(v)
                 32 * (i == length and 3 or 2),
                 cfg.width,
                 frameHeight,
-                -25
+                tubeTexture.width,
+                tubeTexture.height,
+                -25,
+                shader
             )
         end
     end

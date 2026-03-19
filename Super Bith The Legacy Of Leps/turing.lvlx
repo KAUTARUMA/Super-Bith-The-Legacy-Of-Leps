@@ -74,15 +74,18 @@ ID:1;X:-200032;Y:-200448;W:32;H:32;
 ID:1;X:-200032;Y:-200576;W:32;H:32;
 ID:1;X:-200032;Y:-200384;W:32;H:32;
 ID:1;X:-200032;Y:-200544;W:32;H:32;
-ID:850;X:-199680;Y:-200192;W:32;H:32;XTRA:"{\n    \"startingState\"\: 1\n}\n";
-ID:851;X:-199616;Y:-200192;W:32;H:32;
-ID:852;X:-199552;Y:-200192;W:32;H:32;
-ID:853;X:-199776;Y:-200192;W:32;H:32;
-ID:854;X:-199488;Y:-200256;W:32;H:32;
-ID:856;X:-199520;Y:-200192;W:32;H:32;
-ID:855;X:-199808;Y:-200192;W:32;H:32;
-ID:853;X:-199744;Y:-200192;W:32;H:32;
-ID:853;X:-199712;Y:-200192;W:32;H:32;XTRA:"{\n    \"startingState\"\: 1\n}\n";
+ID:853;X:-199712;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"isDisabled\"\: true\,\n    \"startingState\"\: 1\n}\n";
+ID:853;X:-199776;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"isDisabled\"\: true\n}\n";
+ID:850;X:-199616;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"startingState\"\: 0\n}\n";
+ID:853;X:-199680;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"isDisabled\"\: true\,\n    \"startingState\"\: 1\n}\n";
+ID:853;X:-199648;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"isDisabled\"\: true\,\n    \"startingState\"\: 1\n}\n";
+ID:855;X:-199808;Y:-200192;W:32;H:32;LR:"Puzzle1";
+ID:850;X:-199744;Y:-200192;W:32;H:32;LR:"Puzzle1";XTRA:"{\n    \"startingState\"\: 0\n}\n";
+ID:850;X:-199712;Y:-200256;W:32;H:32;LR:"Puzzle2";XTRA:"{\n    \"isDisabled\"\: true\,\n    \"startingState\"\: 1\n}\n";
+ID:853;X:-199776;Y:-200256;W:32;H:32;LR:"Puzzle2";XTRA:"{\n    \"isDisabled\"\: true\n}\n";
+ID:855;X:-199808;Y:-200256;W:32;H:32;LR:"Puzzle2";
+ID:850;X:-199744;Y:-200160;W:32;H:32;LR:"Puzzle2";XTRA:"{\n    \"isDisabled\"\: true\,\n    \"startingState\"\: 0\n}\n";
+ID:852;X:-199744;Y:-200256;W:32;H:32;LR:"Puzzle2";XTRA:"{\n    \"startingState\"\: 0\n}\n";
 BLOCK_END
 BGO
 ID:931;X:-199616;Y:-200320;
@@ -95,6 +98,8 @@ LR:"Default";
 LR:"Destroyed Blocks";HD:1;
 LR:"Spawned NPCs";
 LR:"Markers";
+LR:"Puzzle1";HD:1;
+LR:"Puzzle2";HD:1;
 LAYERS_END
 EVENTS_CLASSIC
 ET:"Level - Start";AS:0;AX:0;AY:0;
