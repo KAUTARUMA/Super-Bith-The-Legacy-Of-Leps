@@ -55,8 +55,16 @@ function turingblock.readInputs(v)
         local state, kind = block.data.state, block.data.kind
         local sfx = nil
 
+        local waitTime = 0.75
+
+        if timeRestrictions then
+            if instructionCount > 100 then waitTime = 0
+            elseif instructionCount > 50 then waitTime = 0.1
+            elseif instructionCount > 15 then waitTime = 0.25 end
+        end
+
         if kind == "MOVE_SIDE" then
-            turingmanager.currentPos = turingmanager.currentPos + (state == 1 and 1 or -1)
+            turingmanager.moveTo(turingmanager.currentPos + (state == 1 and 1 or -1), waitTime * 0.75)
             sfx = 9
         elseif kind == "BIT" then
             turingmanager.currentBitString[turingmanager.currentPos + 1] = state
@@ -66,17 +74,6 @@ function turingblock.readInputs(v)
         end
 
         block.data.bumpTimer = 0
-        turingmanager.currentPos = turingmanager.currentPos % #turingmanager.currentBitString
-
-        local waitTime = 0.75
-
-        if timeRestrictions then
-            if instructionCount > 100 then waitTime = 0
-            elseif instructionCount > 50 then waitTime = 0.1
-            elseif instructionCount > 15 then waitTime = 0.25 end
-        end
-
-        waitTime = 0.25
 
         if sfx then SFX.play(sfx, 1 * (waitTime + 0.05)) end
 
@@ -140,7 +137,7 @@ function turingblock.readInputs(v)
                 end
             end
         end
-        Routine.wait(3)
+        Routine.wait(1)
         turingmanager.resetBits()
     end
 
@@ -149,6 +146,8 @@ end
 
 function turingblock.onInitAPI()
     registerEvent(turingblock, "onPostBlockHit")
+
+    
 end
 
 function turingblock.onPostBlockHit(v, fromUpper, playerOrNil)
@@ -171,7 +170,7 @@ function turingblock.onDrawBlock(v)
 
     local cfg = Block.config[v.id]
     local data = v.data
-
+    
     if not data._init then
         data._init = true
         data.state = data._settings.startingState
@@ -181,7 +180,7 @@ function turingblock.onDrawBlock(v)
         if turingBlockTexMap[v.id] == nil then
             turingBlockTexMap[v.id] = Graphics.sprites.block[v.id].img
         end
-
+        
         Graphics.sprites.block[v.id].img = Graphics.loadImage("empty.png")
     end
 
