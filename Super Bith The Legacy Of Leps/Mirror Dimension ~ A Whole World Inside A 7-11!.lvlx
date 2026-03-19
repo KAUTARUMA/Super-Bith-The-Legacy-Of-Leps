@@ -2,7 +2,7 @@ HEAD
 TL:"Mirror Dimension ~ A Whole World Inside A 7-11!?";CPID:"SMBX2";
 HEAD_END
 SECTION
-SC:0;L:-200000;R:-197440;T:-200600;B:-200000;MZ:0;MF:"";BG:58;XTRA:"{\n    \"darkness\"\: {\n        \"playerlight\"\: {\n            \"radius\"\: 131\n        }\n    }\,\n    \"effects\"\: {\n        \"screenEffects\"\: 8\,\n        \"weather\"\: 6\n    }\n}\n";
+SC:0;L:-200000;R:-197440;T:-200600;B:-200000;MZ:24;MF:"Mirror Dimension ~ A Whole World Inside A 7-11!/OHBD.mp3";BG:58;XTRA:"{\n    \"darkness\"\: {\n        \"playerlight\"\: {\n            \"radius\"\: 131\n        }\n    }\,\n    \"effects\"\: {\n        \"screenEffects\"\: 8\,\n        \"weather\"\: 6\n    }\n}\n";
 SECTION_END
 STARTPOINT
 ID:1;X:-199820;Y:-200310;D:1;
