@@ -2,7 +2,7 @@ HEAD
 TL:"Biddy Hills";CPID:"SMBX2";
 HEAD_END
 SECTION
-SC:0;L:-200000;R:-194240;T:-200600;B:-200000;MZ:24;MF:"Biddy Hills/New Friendly.mp3";BG:13;XTRA:"{\n    \"darkness\"\: {\n        \"playerlight\"\: {\n            \"radius\"\: 127\n        }\,\n        \"shadows\"\: 1\n    }\,\n    \"effects\"\: {\n        \"priority1\"\: 10\,\n        \"screenEffects\"\: 14\,\n        \"weather\"\: 0\n    }\n}\n";
+SC:0;L:-200000;R:-194240;T:-200600;B:-200000;MZ:0;MF:"Biddy Hills/New Friendly.mp3";BG:13;XTRA:"{\n    \"darkness\"\: {\n        \"playerlight\"\: {\n            \"radius\"\: 127\n        }\,\n        \"shadows\"\: 1\n    }\,\n    \"effects\"\: {\n        \"priority1\"\: 10\,\n        \"screenEffects\"\: 14\,\n        \"weather\"\: 0\n    }\n}\n";
 SECTION_END
 STARTPOINT
 ID:1;X:-199948;Y:-200310;D:1;
