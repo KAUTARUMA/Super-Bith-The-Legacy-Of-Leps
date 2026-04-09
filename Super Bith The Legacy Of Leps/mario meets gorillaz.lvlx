@@ -7,7 +7,7 @@ SC:1;L:-180000;R:-179200;T:-180600;B:-180000;MZ:24;MF:"mario meets gorillaz/Clin
 SC:2;L:-160000;R:-155392;T:-160600;B:-160000;MZ:24;MF:"mario meets gorillaz/Gorillaz Rockit instrumental.mp3";BG:16;XTRA:"{\n    \"darkness\"\: {\n        \"playerlight\"\: {\n            \"radius\"\: 126\n        }\n    }\,\n    \"effects\"\: {\n        \"weatherFlipX\"\: false\,\n        \"weatherFlipY\"\: false\n    }\n}\n";
 SECTION_END
 STARTPOINT
-ID:1;X:-156444;Y:-160262;D:1;
+ID:1;X:-199948;Y:-200118;D:1;
 STARTPOINT_END
 BLOCK
 ID:154;X:-200000;Y:-200064;W:32;H:64;
